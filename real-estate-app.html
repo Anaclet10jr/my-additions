@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Estato — Premium Real Estate</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+
+
+body.light {
+  --dark: #f5f5f5;
+  --dark-2: #ffffff;
+  --dark-3: #eeeeee;
+  color: #111;
+}
+
+body.light .property-card,
+body.light .agent-card,
+body.light .testi-card {
+  background: #fff;
+  border-color: #ddd;
+}
+
+body.light input,
+body.light select,
+body.light textarea {
+  background: #fff;
+  color: #111;
+  border-color: #ddd;
+}
+
+
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #e8c97a;
+      --dark: #0f0f0f;
+      --dark-2: #161616;
+      --dark-3: #1e1e1e;
+      --text-muted: #7a7a7a;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--dark); color: #f0ede8; margin: 0; }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* Gold accent */
+    .gold { color: var(--gold); }
+    .bg-gold { background: var(--gold); }
+    .border-gold { border-color: var(--gold); }
+
+    /* Nav */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; transition: background 0.4s; }
+    nav.scrolled { background: rgba(15,15,15,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid #2a2a2a; }
+
+    /* Hero */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1410 50%, #0f0f0f 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(201,168,76,0.12) 0%, transparent 70%);
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Search bar */
+    .search-tab { cursor: pointer; transition: all 0.2s; }
+    .search-tab.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
+
+    /* Property Card */
+    .property-card {
+      background: var(--dark-3);
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .property-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--gold);
+      box-shadow: 0 20px 60px rgba(201,168,76,0.15);
+    }
+    .property-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .property-card:hover .property-img { transform: scale(1.04); }
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* Section */
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* Stats */
+    .stat-card {
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 28px 24px;
+      background: var(--dark-2);
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    /* Agent Card */
+    .agent-card {
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      background: var(--dark-2);
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .agent-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+
+    /* Input */
+    input, select {
+      background: #1e1e1e;
+      border: 1px solid #2e2e2e;
+      color: #f0ede8;
+      border-radius: 8px;
+      padding: 10px 14px;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus { border-color: var(--gold); }
+    input::placeholder { color: #5a5a5a; }
+    select option { background: #1e1e1e; }
+
+    /* Button */
+    .btn-gold {
+      background: var(--gold);
+      color: #0f0f0f;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 12px 28px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 10px 24px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-outline:hover { background: var(--gold); color: #0f0f0f; }
+
+    /* Modal */
+    #modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      padding: 20px;
+    }
+    #modal-overlay.open { display: flex; }
+    #modal-box {
+      background: var(--dark-2);
+      border: 1px solid #2a2a2a;
+      border-radius: 20px;
+      max-width: 700px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    /* Animate on scroll */
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s, transform 0.6s; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* Filter pill */
+    .filter-pill {
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid #2e2e2e;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+      background: transparent;
+      color: #aaa;
+    }
+    .filter-pill.active, .filter-pill:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+
+    /* Testimonial */
+    .testi-card {
+      background: var(--dark-2);
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    /* Mobile menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    /* Smooth scroll */
+    html { scroll-behavior: smooth; }
+
+    /* Range slider */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #2e2e2e;
+      border: none;
+      height: 4px;
+      border-radius: 2px;
+      padding: 0;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--gold);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
+
+<nav id="navbar" class="py-4 px-6 md:px-12">
+
+  <button onclick="toggleTheme()" class="btn-outline text-sm">
+  🌙 Theme
+</button>
+
+
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-gold rounded-lg flex items-center justify-center">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L14 6V15H10V10H6V15H2V6L8 1Z" fill="#0f0f0f"/></svg>
+      </div>
+      <span class="text-xl font-bold" style="font-family:'Playfair Display',serif; letter-spacing:0.04em;">ESTATO</span>
+    </a>
+
+    <!-- Desktop Links -->
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+      <a href="#listings" class="hover:text-white transition-colors">Listings</a>
+      <a href="#agents" class="hover:text-white transition-colors">Agents</a>
+      <a href="#about" class="hover:text-white transition-colors">About</a>
+      <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+    </div>
+
+    <div class="hidden md:flex items-center gap-3">
+      <button class="btn-outline text-sm py-2 px-5">Sign In</button>
+      <button class="btn-gold text-sm py-2 px-5">List Property</button>
+    </div>
+
+    <!-- Hamburger -->
+    <button id="menu-btn" class="md:hidden text-gray-300 hover:text-white" onclick="toggleMenu()">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden mt-4 pb-4 border-t border-gray-800">
+    <div class="flex flex-col gap-4 pt-4 px-2 text-sm font-medium text-gray-400">
+      <a href="#listings" onclick="closeMenu()" class="hover:text-white">Listings</a>
+      <a href="#agents" onclick="closeMenu()" class="hover:text-white">Agents</a>
+      <a href="#about" onclick="closeMenu()" class="hover:text-white">About</a>
+      <a href="#contact" onclick="closeMenu()" class="hover:text-white">Contact</a>
+      <div class="flex gap-3 pt-2">
+        <button class="btn-outline text-sm py-2 px-5 flex-1">Sign In</button>
+        <button class="btn-gold text-sm py-2 px-5 flex-1">List Property</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<section id="hero" class="flex items-center justify-center pt-20">
+  <div class="hero-grid"></div>
+  <div class="relative z-10 max-w-5xl mx-auto px-6 py-24 text-center">
+    <div class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full border border-yellow-800 bg-yellow-900/20 text-xs text-yellow-400 font-medium tracking-widest uppercase">
+      <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse inline-block"></span>
+      Premium Properties Available Now
+    </div>
+
+    <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">
+      Find Your<br/>
+      <span class="gold italic">Perfect</span> Home
+    </h1>
+    <p class="text-gray-400 text-lg md:text-xl max-w-xl mx-auto mb-12 leading-relaxed">
+      Discover extraordinary properties curated for those who demand the finest living experiences.
+    </p>
+
+    <!-- Search Box -->
+    <div class="bg-dark-2 rounded-2xl border border-gray-800 p-2 max-w-3xl mx-auto shadow-2xl" style="background:#161616;">
+      <!-- Tabs -->
+      <div class="flex gap-1 mb-3 px-2 pt-1 border-b border-gray-800">
+        <button class="search-tab active pb-2 px-4 text-sm font-medium" onclick="setTab(this,'buy')">Buy</button>
+        <button class="search-tab pb-2 px-4 text-sm font-medium text-gray-500" onclick="setTab(this,'rent')">Rent</button>
+        <button class="search-tab pb-2 px-4 text-sm font-medium text-gray-500" onclick="setTab(this,'sell')">Sell</button>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-2 p-2">
+        <input id="search-input" type="text" placeholder="City, neighborhood, or address..." class="flex-1 text-sm"/>
+        <select id="search-type" class="text-sm md:w-36">
+          <option value="">All Types</option>
+          <option value="Villa">Villa</option>
+          <option value="Apartment">Apartment</option>
+          <option value="Penthouse">Penthouse</option>
+          <option value="Townhouse">Townhouse</option>
+        </select>
+        <select id="search-beds" class="text-sm md:w-28">
+          <option value="">Beds</option>
+          <option value="1">1+</option>
+          <option value="2">2+</option>
+          <option value="3">3+</option>
+          <option value="4">4+</option>
+        </select>
+        <button class="btn-gold text-sm whitespace-nowrap" onclick="doSearch()">
+          <span class="flex items-center gap-2">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/>
+            </svg>
+            Search
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="flex flex-wrap justify-center gap-8 mt-14 text-sm text-gray-500">
+      <div><span class="text-white font-semibold text-xl mr-1">2,400+</span> Properties</div>
+      <div><span class="text-white font-semibold text-xl mr-1">98%</span> Client Satisfaction</div>
+      <div><span class="text-white font-semibold text-xl mr-1">15</span> Years Experience</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ LISTINGS ═══════════════════════════════ -->
+<section id="listings" class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+  <div class="fade-in flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+    <div>
+      <p class="section-label mb-3">Our Listings</p>
+      <h2 class="text-4xl md:text-5xl font-bold leading-tight">Featured <span class="gold italic">Properties</span></h2>
+    </div>
+    <div class="flex flex-wrap gap-2" id="filter-pills">
+      <button class="filter-pill active" onclick="filterProps(this,'All')">All</button>
+      <button class="filter-pill" onclick="filterProps(this,'Villa')">Villa</button>
+      <button class="filter-pill" onclick="filterProps(this,'Apartment')">Apartment</button>
+      <button class="filter-pill" onclick="filterProps(this,'Penthouse')">Penthouse</button>
+      <button class="filter-pill" onclick="filterProps(this,'Townhouse')">Townhouse</button>
+    </div>
+  </div>
+
+  <!-- Sort + Results count -->
+  <div class="flex items-center justify-between mb-8">
+    <p id="result-count" class="text-gray-500 text-sm"></p>
+    <select id="sort-select" onchange="sortProps()" class="text-sm w-44">
+      <option value="default">Sort by: Featured</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+      <option value="beds">Most Bedrooms</option>
+    </select>
+  </div>
+
+  <div id="properties-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+    <!-- Cards injected by JS -->
+  </div>
+
+  <div class="text-center mt-14">
+    <button class="btn-outline" onclick="loadMore()">Load More Properties</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ STATS ═══════════════════════════════ -->
+<section id="about" class="py-20 px-6 md:px-12" style="background:var(--dark-2); border-top:1px solid #1e1e1e; border-bottom:1px solid #1e1e1e;">
+  <div class="max-w-6xl mx-auto">
+    <div class="fade-in grid grid-cols-2 md:grid-cols-4 gap-5">
+      <div class="stat-card">
+        <div class="stat-num" id="count-1">0</div>
+        <p class="text-gray-500 text-sm mt-2">Properties Sold</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="count-2">0</div>
+        <p class="text-gray-500 text-sm mt-2">Happy Clients</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="count-3">0</div>
+        <p class="text-gray-500 text-sm mt-2">Expert Agents</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="count-4">0</div>
+        <p class="text-gray-500 text-sm mt-2">Cities Covered</p>
+      </div>
+    </div>
+
+    <!-- About blurb -->
+    <div class="mt-20 grid md:grid-cols-2 gap-14 items-center fade-in">
+      <div>
+        <p class="section-label mb-3">Why Choose Estato</p>
+        <h2 class="text-4xl font-bold leading-tight mb-5">Real estate, <span class="gold italic">redefined</span></h2>
+        <p class="text-gray-400 leading-relaxed mb-5">We combine deep market expertise with white-glove service to connect buyers and sellers with properties that truly match their vision of home — not just a house, but a life.</p>
+        <p class="text-gray-400 leading-relaxed">Our curated portfolio spans luxury villas, urban penthouses, family townhouses, and investment-grade apartments across the world's most sought-after locations.</p>
+        <div class="mt-8 flex gap-4">
+          <button class="btn-gold">Explore Properties</button>
+          <button class="btn-outline">Meet Our Team</button>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="rounded-2xl overflow-hidden h-48 bg-gray-800">
+          <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=80" class="w-full h-full object-cover" alt="Property"/>
+        </div>
+        <div class="rounded-2xl overflow-hidden h-48 mt-8 bg-gray-800">
+          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400&q=80" class="w-full h-full object-cover" alt="Property"/>
+        </div>
+        <div class="rounded-2xl overflow-hidden h-48 bg-gray-800">
+          <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&q=80" class="w-full h-full object-cover" alt="Property"/>
+        </div>
+        <div class="rounded-2xl overflow-hidden h-48 mt-8 bg-gray-800">
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&q=80" class="w-full h-full object-cover" alt="Property"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ AGENTS ═══════════════════════════════ -->
+<section id="agents" class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+  <div class="fade-in text-center mb-14">
+    <p class="section-label mb-3">Our Experts</p>
+    <h2 class="text-4xl md:text-5xl font-bold">Meet the <span class="gold italic">Agents</span></h2>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 fade-in" id="agents-grid">
+    <!-- Injected -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ TESTIMONIALS ═══════════════════════════════ -->
+<section class="py-20 px-6 md:px-12" style="background:var(--dark-2); border-top:1px solid #1e1e1e;">
+  <div class="max-w-6xl mx-auto">
+    <div class="fade-in text-center mb-14">
+      <p class="section-label mb-3">Testimonials</p>
+      <h2 class="text-4xl font-bold">What Clients <span class="gold italic">Say</span></h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in" id="testimonials-grid"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ NEWSLETTER ═══════════════════════════════ -->
+<section class="py-20 px-6 md:px-12">
+  <div class="max-w-3xl mx-auto text-center fade-in">
+    <p class="section-label mb-3">Stay Updated</p>
+    <h2 class="text-4xl font-bold mb-4">Get New Listings <span class="gold italic">First</span></h2>
+    <p class="text-gray-400 mb-8">Subscribe to receive exclusive property alerts before they hit the market.</p>
+    <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <input type="email" placeholder="Your email address" class="flex-1 text-sm"/>
+      <button class="btn-gold text-sm whitespace-nowrap" onclick="subscribe()">Subscribe</button>
+    </div>
+    <p id="sub-msg" class="mt-3 text-sm text-green-400 hidden">✓ You're on the list! Welcome aboard.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ CONTACT ═══════════════════════════════ -->
+<section id="contact" class="py-20 px-6 md:px-12" style="background:var(--dark-2); border-top:1px solid #1e1e1e;">
+  <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-14 fade-in">
+    <div>
+      <p class="section-label mb-3">Get in Touch</p>
+      <h2 class="text-4xl font-bold mb-5">Let's Find Your <span class="gold italic">Dream Home</span></h2>
+      <p class="text-gray-400 mb-8 leading-relaxed">Our team of specialists is ready to guide you through every step — from the first viewing to the final signature.</p>
+      <div class="space-y-5 text-sm">
+        <div class="flex items-center gap-3 text-gray-400">
+          <div class="w-10 h-10 rounded-lg bg-dark-3 border border-gray-800 flex items-center justify-center" style="background:#1e1e1e;">
+            <svg width="16" height="16" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21L8.5 10.5s1.5 3 5 5l1.113-1.724a1 1 0 011.21-.502l4.493 1.498A1 1 0 0121 15.72V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          </div>
+          <span>+1 (888) 442-5500</span>
+        </div>
+        <div class="flex items-center gap-3 text-gray-400">
+          <div class="w-10 h-10 rounded-lg bg-dark-3 border border-gray-800 flex items-center justify-center" style="background:#1e1e1e;">
+            <svg width="16" height="16" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <span>hello@estato.com</span>
+        </div>
+        <div class="flex items-center gap-3 text-gray-400">
+          <div class="w-10 h-10 rounded-lg bg-dark-3 border border-gray-800 flex items-center justify-center" style="background:#1e1e1e;">
+            <svg width="16" height="16" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657A8 8 0 1117.657 16.657z"/><circle cx="12" cy="11" r="3" stroke="var(--gold)" stroke-width="2"/></svg>
+          </div>
+          <span>350 Fifth Avenue, New York, NY</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="text-xs text-gray-500 mb-1 block">First Name</label>
+          <input type="text" placeholder="John" class="w-full text-sm"/>
+        </div>
+        <div>
+          <label class="text-xs text-gray-500 mb-1 block">Last Name</label>
+          <input type="text" placeholder="Doe" class="w-full text-sm"/>
+        </div>
+      </div>
+      <div>
+        <label class="text-xs text-gray-500 mb-1 block">Email</label>
+        <input type="email" placeholder="john@example.com" class="w-full text-sm"/>
+      </div>
+      <div>
+        <label class="text-xs text-gray-500 mb-1 block">I'm interested in</label>
+        <select class="w-full text-sm">
+          <option>Buying a property</option>
+          <option>Renting a property</option>
+          <option>Listing my property</option>
+          <option>Investment advice</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-xs text-gray-500 mb-1 block">Message</label>
+        <textarea rows="4" placeholder="Tell us more about what you're looking for..." style="background:#1e1e1e;border:1px solid #2e2e2e;color:#f0ede8;border-radius:8px;padding:10px 14px;width:100%;font-family:'DM Sans',sans-serif;outline:none;resize:vertical;font-size:14px;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='#2e2e2e'"></textarea>
+      </div>
+      <button class="btn-gold w-full" onclick="submitContact()">Send Message</button>
+      <p id="contact-msg" class="text-sm text-green-400 hidden text-center">✓ Message sent! We'll be in touch within 24 hours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer class="py-12 px-6 md:px-12 border-t border-gray-800">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+      <div class="col-span-2 md:col-span-1">
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-7 h-7 bg-gold rounded-md flex items-center justify-center">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1L14 6V15H10V10H6V15H2V6L8 1Z" fill="#0f0f0f"/></svg>
+          </div>
+          <span class="text-lg font-bold" style="font-family:'Playfair Display',serif;">ESTATO</span>
+        </div>
+        <p class="text-gray-500 text-sm leading-relaxed">Premium real estate for discerning buyers and sellers worldwide.</p>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold mb-4">Company</h4>
+        <ul class="space-y-2 text-sm text-gray-500">
+          <li><a href="#" class="hover:text-gold transition-colors">About Us</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Careers</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Press</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold mb-4">Properties</h4>
+        <ul class="space-y-2 text-sm text-gray-500">
+          <li><a href="#" class="hover:text-gold transition-colors">Buy</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Rent</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">New Developments</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Commercial</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold mb-4">Legal</h4>
+        <ul class="space-y-2 text-sm text-gray-500">
+          <li><a href="#" class="hover:text-gold transition-colors">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Terms of Use</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-600">
+      <p>© 2026 Estato Real Estate. All rights reserved.</p>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-gold transition-colors">Facebook</a>
+        <a href="#" class="hover:text-gold transition-colors">Instagram</a>
+        <a href="#" class="hover:text-gold transition-colors">LinkedIn</a>
+        <a href="#" class="hover:text-gold transition-colors">Twitter</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════ PROPERTY MODAL ═══════════════════════════════ -->
+<div id="modal-overlay" onclick="closeModal(event)">
+  <div id="modal-box">
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ JAVASCRIPT ═══════════════════════════════ -->
+<script>
+
+
+  function toggleTheme() {
+  document.body.classList.toggle("light");
+
+  const mode = document.body.classList.contains("light") ? "light" : "dark";
+  localStorage.setItem("theme", mode);
+}
+
+// load saved theme
+(function () {
+  const saved = localStorage.getItem("theme");
+  if (saved === "light") {
+    document.body.classList.add("light");
+  }
+})();
+
+
+  /* ── DATA ── */
+  const ALL_PROPERTIES = [
+    { id:1, title:"Oceanfront Villa Retreat", type:"Villa", location:"Malibu, CA", price:4200000, beds:5, baths:4, sqft:4800, img:"https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80", tag:"Featured", status:"For Sale", desc:"A stunning oceanfront masterpiece perched above the Pacific. Floor-to-ceiling glass walls, infinity pool, and a chef's kitchen crafted for entertaining on a grand scale." },
+    { id:2, title:"Downtown Glass Penthouse", type:"Penthouse", location:"Manhattan, NY", price:8500000, beds:4, baths:3, sqft:3200, img:"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80", tag:"Exclusive", status:"For Sale", desc:"Sky-high luxury in the heart of Manhattan. Panoramic views of Central Park and the skyline from every room. Private elevator, rooftop terrace, and concierge service." },
+    { id:3, title:"Modern Hillside Escape", type:"Villa", location:"Beverly Hills, CA", price:6750000, beds:6, baths:5, sqft:5600, img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80", tag:"New", status:"For Sale", desc:"Perched in the coveted Beverly Hills Hills, this architectural gem offers seamless indoor-outdoor living. Smart home integration and resort-style grounds." },
+    { id:4, title:"Heritage Brownstone", type:"Townhouse", location:"Boston, MA", price:2100000, beds:4, baths:3, sqft:2800, img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80", tag:"", status:"For Sale", desc:"A beautifully restored brownstone in the Back Bay with original architectural details paired with modern comforts. Private garden, wine cellar, and rooftop terrace." },
+    { id:5, title:"Luxury Sky Apartment", type:"Apartment", location:"Chicago, IL", price:1800000, beds:3, baths:2, sqft:2200, img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80", tag:"", status:"For Sale", desc:"A refined residence on the 42nd floor with sweeping Lake Michigan views. Designer kitchen, spa bath, and access to world-class building amenities." },
+    { id:6, title:"Tuscan-Style Estate", type:"Villa", location:"Napa Valley, CA", price:5400000, beds:7, baths:6, sqft:6800, img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80", tag:"", status:"For Sale", desc:"A private wine-country estate inspired by Italian architecture. Set on 3.5 acres with vineyard, pool, outdoor kitchen, and a dedicated guest villa." },
+    { id:7, title:"Urban Loft Penthouse", type:"Penthouse", location:"San Francisco, CA", price:3900000, beds:3, baths:2, sqft:2700, img:"https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=600&q=80", tag:"Hot", status:"For Sale", desc:"Industrial elegance in SoMa. Exposed concrete, 18-foot ceilings, wraparound terrace, and unobstructed bay views. A true live-work sanctuary." },
+    { id:8, title:"Serene Garden Townhouse", type:"Townhouse", location:"Austin, TX", price:1350000, beds:3, baths:3, sqft:2100, img:"https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=600&q=80", tag:"", status:"For Sale", desc:"A tranquil townhouse with lush private garden in the heart of Austin. Open-plan design, chef's kitchen, and a rooftop deck perfect for Texas sunsets." },
+    { id:9, title:"Beachfront Contemporary", type:"Villa", location:"Miami Beach, FL", price:7100000, beds:5, baths:5, sqft:5200, img:"https://images.unsplash.com/photo-1571055107559-3e67626fa8be?w=600&q=80", tag:"New", status:"For Sale", desc:"Direct oceanfront living with uninterrupted Atlantic views. Private beach access, boat dock, glass-walled living spaces, and resort-level outdoor areas." },
+  ];
+
+  let displayedProps = [...ALL_PROPERTIES];
+  let currentFilter = 'All';
+  let visibleCount = 6;
+
+  /* ── RENDER PROPERTIES ── */
+  function renderProperties() {
+    const grid = document.getElementById('properties-grid');
+    const countEl = document.getElementById('result-count');
+    const toShow = displayedProps.slice(0, visibleCount);
+    countEl.textContent = `${displayedProps.length} properties found`;
+
+    grid.innerHTML = toShow.map(p => `
+      <div class="property-card fade-in" onclick="openModal(${p.id})">
+        <div class="overflow-hidden relative">
+          <img src="${p.img}" alt="${p.title}" class="property-img" loading="lazy"/>
+          <div class="absolute top-3 left-3 flex gap-2">
+            ${p.tag ? `<span class="badge text-xs" style="background:var(--gold);color:#0f0f0f;">${p.tag}</span>` : ''}
+            <span class="badge text-xs" style="background:rgba(15,15,15,0.8);color:#fff;border:1px solid #333;">${p.type}</span>
+          </div>
+          <button onclick="toggleFav(event,${p.id})" id="fav-${p.id}" class="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(15,15,15,0.75);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </div>
+        <div class="p-5">
+          <p class="text-gray-500 text-xs mb-1 flex items-center gap-1">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657A8 8 0 1117.657 16.657z"/><circle cx="12" cy="11" r="3" stroke="currentColor" stroke-width="2"/></svg>
+            ${p.location}
+          </p>
+          <h3 class="text-base font-semibold mb-3 leading-snug">${p.title}</h3>
+          <div class="flex items-center gap-4 text-gray-400 text-xs mb-4">
+            <span class="flex items-center gap-1">🛏 ${p.beds} Beds</span>
+            <span class="flex items-center gap-1">🚿 ${p.baths} Baths</span>
+            <span class="flex items-center gap-1">📐 ${p.sqft.toLocaleString()} ft²</span>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t border-gray-800">
+            <span class="text-lg font-bold gold">$${(p.price/1e6).toFixed(1)}M</span>
+            <button class="btn-gold text-xs py-2 px-4">View Details</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    observeFadeIns();
+  }
+
+  /* ── LOAD MORE ── */
+  function loadMore() {
+    visibleCount += 3;
+    renderProperties();
+  }
+
+  /* ── FILTER ── */
+  function filterProps(btn, type) {
+    currentFilter = type;
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const q = document.getElementById('search-input').value.toLowerCase();
+    const type = document.getElementById('search-type').value;
+    const beds = parseInt(document.getElementById('search-beds').value) || 0;
+    displayedProps = ALL_PROPERTIES.filter(p => {
+      const matchFilter = currentFilter === 'All' || p.type === currentFilter;
+      const matchType = !type || p.type === type;
+      const matchBeds = p.beds >= beds;
+      const matchQ = !q || p.title.toLowerCase().includes(q) || p.location.toLowerCase().includes(q) || p.type.toLowerCase().includes(q);
+      return matchFilter && matchType && matchBeds && matchQ;
+    });
+    visibleCount = 6;
+    renderProperties();
+  }
+
+  function doSearch() {
+    document.querySelector('#listings').scrollIntoView({ behavior:'smooth' });
+    applyFilters();
+  }
+
+  /* ── SORT ── */
+  function sortProps() {
+    const v = document.getElementById('sort-select').value;
+    if (v === 'price-asc') displayedProps.sort((a,b) => a.price - b.price);
+    else if (v === 'price-desc') displayedProps.sort((a,b) => b.price - a.price);
+    else if (v === 'beds') displayedProps.sort((a,b) => b.beds - a.beds);
+    else displayedProps = ALL_PROPERTIES.filter(p => currentFilter === 'All' || p.type === currentFilter);
+    renderProperties();
+  }
+
+  /* ── FAVORITES ── */
+  const favs = new Set();
+  function toggleFav(e, id) {
+    e.stopPropagation();
+    const btn = document.getElementById(`fav-${id}`);
+    if (favs.has(id)) { favs.delete(id); btn.querySelector('svg').setAttribute('stroke','#aaa'); btn.querySelector('svg').setAttribute('fill','none'); }
+    else { favs.add(id); btn.querySelector('svg').setAttribute('stroke','var(--gold)'); btn.querySelector('svg').setAttribute('fill','var(--gold)'); }
+  }
+
+  /* ── MODAL ── */
+  function openModal(id) {
+    const p = ALL_PROPERTIES.find(x => x.id === id);
+    document.getElementById('modal-content').innerHTML = `
+      <div class="relative">
+        <img src="${p.img}" alt="${p.title}" class="w-full" style="height:260px;object-fit:cover;border-radius:20px 20px 0 0;"/>
+        <button onclick="closeModalBtn()" class="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-white" style="background:rgba(0,0,0,0.7);">✕</button>
+        <span class="absolute bottom-4 left-4 badge" style="background:var(--gold);color:#0f0f0f;">${p.status}</span>
+      </div>
+      <div class="p-6 md:p-8">
+        <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
+          <div>
+            <p class="text-gray-500 text-xs mb-1 flex items-center gap-1">📍 ${p.location}</p>
+            <h2 class="text-2xl md:text-3xl font-bold">${p.title}</h2>
+          </div>
+          <div class="text-right">
+            <div class="text-3xl font-bold gold">$${(p.price/1e6).toFixed(2)}M</div>
+            <div class="text-xs text-gray-500 mt-1">$${Math.round(p.price/p.sqft).toLocaleString()} / ft²</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-4 mb-6">
+          <div class="text-center p-3 rounded-xl" style="background:#1e1e1e;">
+            <div class="text-2xl font-bold gold">${p.beds}</div>
+            <div class="text-xs text-gray-500 mt-1">Bedrooms</div>
+          </div>
+          <div class="text-center p-3 rounded-xl" style="background:#1e1e1e;">
+            <div class="text-2xl font-bold gold">${p.baths}</div>
+            <div class="text-xs text-gray-500 mt-1">Bathrooms</div>
+          </div>
+          <div class="text-center p-3 rounded-xl" style="background:#1e1e1e;">
+            <div class="text-2xl font-bold gold">${(p.sqft/1000).toFixed(1)}K</div>
+            <div class="text-xs text-gray-500 mt-1">Square Ft</div>
+          </div>
+        </div>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6">${p.desc}</p>
+        <div class="flex gap-3">
+          <button class="btn-gold flex-1" onclick="closeModalBtn()">Schedule Tour</button>
+          <button class="btn-outline flex-1" onclick="closeModalBtn()">Contact Agent</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('modal-overlay').classList.add('open');
+  }
+
+  function closeModal(e) { if (e.target === document.getElementById('modal-overlay')) closeModalBtn(); }
+  function closeModalBtn() { document.getElementById('modal-overlay').classList.remove('open'); }
+
+  /* ── AGENTS ── */
+  const AGENTS = [
+    { name:"Alexandra Moore", role:"Luxury Properties", deals:148, img:"https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&q=80" },
+    { name:"James Whitfield", role:"Commercial Real Estate", deals:92, img:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80" },
+    { name:"Sofia Ruiz", role:"Urban Specialists", deals:201, img:"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=80" },
+    { name:"Marcus Chen", role:"Investment Properties", deals:117, img:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=80" },
+  ];
+
+  document.getElementById('agents-grid').innerHTML = AGENTS.map(a => `
+    <div class="agent-card">
+      <div class="overflow-hidden h-52">
+        <img src="${a.img}" alt="${a.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy"/>
+      </div>
+      <div class="p-5">
+        <h3 class="font-semibold text-base">${a.name}</h3>
+        <p class="text-gray-500 text-xs mb-3">${a.role}</p>
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-gray-600">${a.deals} deals closed</span>
+          <button class="text-xs btn-outline py-1.5 px-3">Contact</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  /* ── TESTIMONIALS ── */
+  const TESTIS = [
+    { name:"Emily Carter", loc:"Bought in Beverly Hills", text:"Estato exceeded every expectation. From the first viewing to closing, their team was flawless. I found my dream home in under three weeks.", stars:5 },
+    { name:"Robert Kim", loc:"Sold in Manhattan", text:"The most professional agency I've ever worked with. They sold our penthouse above asking price and handled everything with complete discretion.", stars:5 },
+    { name:"Diana Walsh", loc:"Bought in Miami", text:"I was skeptical at first, but their market knowledge is extraordinary. They found us a waterfront property that wasn't even publicly listed yet.", stars:5 },
+  ];
+
+  document.getElementById('testimonials-grid').innerHTML = TESTIS.map(t => `
+    <div class="testi-card">
+      <div class="flex mb-3 gap-0.5">${'★'.repeat(t.stars).split('').map(s => `<span style="color:var(--gold)">${s}</span>`).join('')}</div>
+      <p class="text-gray-300 text-sm leading-relaxed mb-5">"${t.text}"</p>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold" style="background:var(--gold);color:#0f0f0f;">${t.name[0]}</div>
+        <div>
+          <p class="font-semibold text-sm">${t.name}</p>
+          <p class="text-gray-500 text-xs">${t.loc}</p>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  /* ── NAV SCROLL ── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  /* ── MOBILE MENU ── */
+  function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+  function closeMenu() { document.getElementById('mobile-menu').classList.remove('open'); }
+
+  /* ── SEARCH TAB ── */
+  function setTab(el, type) {
+    document.querySelectorAll('.search-tab').forEach(t => { t.classList.remove('active'); t.classList.add('text-gray-500'); });
+    el.classList.add('active');
+    el.classList.remove('text-gray-500');
+  }
+
+  /* ── SUBSCRIBE ── */
+  function subscribe() {
+    const msg = document.getElementById('sub-msg');
+    msg.classList.remove('hidden');
+    setTimeout(() => msg.classList.add('hidden'), 5000);
+  }
+
+  /* ── CONTACT ── */
+  function submitContact() {
+    const msg = document.getElementById('contact-msg');
+    msg.classList.remove('hidden');
+    setTimeout(() => msg.classList.add('hidden'), 5000);
+  }
+
+  /* ── COUNTER ANIMATION ── */
+  const TARGETS = [1240, 3800, 48, 32];
+  function animateCounters() {
+    TARGETS.forEach((target, i) => {
+      let count = 0;
+      const el = document.getElementById(`count-${i+1}`);
+      const step = Math.ceil(target / 60);
+      const timer = setInterval(() => {
+        count = Math.min(count + step, target);
+        el.textContent = count.toLocaleString() + (i === 0 ? '' : i === 1 ? '+' : '');
+        if (count >= target) clearInterval(timer);
+      }, 20);
+    });
+  }
+
+  let countersStarted = false;
+
+  /* ── FADE-IN ON SCROLL ── */
+  function observeFadeIns() {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          if (e.target.closest('#about') && !countersStarted) { countersStarted = true; animateCounters(); }
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+  }
+
+  /* ── INIT ── */
+  renderProperties();
+  observeFadeIns();
+
+  /* ── ESC KEY ── */
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalBtn(); });
+</script>
+</body>
+</html>
